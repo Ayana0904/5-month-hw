@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
 from .models import Movie, Review, Director
 
 
@@ -30,7 +29,7 @@ class ReviewValidateSerializer(serializers.Serializer):
     stars = serializers.FloatField(required=True, min_value=1, max_value=5)
     movie_id = serializers.IntegerField()
 
-    def validate_movie_id(self, movie_id):  # 10
+    def validate_movie_id(self, movie_id):
         try:
             Movie.objects.get(id=movie_id)
         except Movie.DoesNotExist:
