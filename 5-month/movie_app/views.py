@@ -16,16 +16,12 @@ def director_api_list_view(request):
         return Response(data=data)
 
     elif request.method == 'POST':
-        # проверка
         serializer = DirectorValidateSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(status=status.HTTP_400_BAD_REQUEST,
                             data={'errors': serializer.errors})
-        #Получите данные из проверенных данных
         name = serializer.validated_data.get('name')
-        # Создать директора
         director_ = Director.objects.create(name=name)
-        # Возвращение созданного объекта
         return Response(data=DirectorSerializers(director_).data)
 
 
