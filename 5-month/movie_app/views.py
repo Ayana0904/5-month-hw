@@ -16,16 +16,16 @@ def director_api_list_view(request):
         return Response(data=data)
 
     elif request.method == 'POST':
-        # Step 0. Validation
+        # проверка
         serializer = DirectorValidateSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(status=status.HTTP_400_BAD_REQUEST,
                             data={'errors': serializer.errors})
-        # Step 1. Get data from validated data
+        #Получите данные из проверенных данных
         name = serializer.validated_data.get('name')
-        # Step 2. Create director
+        # Создать директора
         director_ = Director.objects.create(name=name)
-        # Step 3. Return created object
+        # Возвращение созданного объекта
         return Response(data=DirectorSerializers(director_).data)
 
 
@@ -43,7 +43,7 @@ def director_detail_api_view(request, director_id):
     elif request.method == 'DELETE':
         director.delete()
         return Response(status=status.HTTP_204_NO_CONTENT,
-                        data={'message': 'Product removed!'})
+                        data={'message': 'PRODUCT REMOVE!'})
     elif request.method == 'PUT':
         serializer = DirectorValidateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -65,11 +65,10 @@ def movie_api_list_view(request):
                             data={'errors': serializer.errors})
         title = serializer.validated_data.get('title')
         description = serializer.validated_data.get('description')
-        is_active = serializer.validated_data.data.get('is_active')
         duration = serializer.validated_data.data.get('duration')
         create_data = serializer.validated_data.get('create_data')
         director_id = serializer.validated_data.get('director_id')
-        movie = Movie.objects.create(title=title, description=description, is_active=is_active, duration=duration,
+        movie = Movie.objects.create(title=title, description=description, duration=duration,
                                      create_data=create_data, director_id=director_id)
 
         return Response(data=MovieSerializers(movie).data)
@@ -95,7 +94,6 @@ def movie_detail_api_view(request, movie_id):
         serializer.is_valid(raise_exception=True)
         movie.title = serializer.validated_data.get('title')
         movie.description = serializer.validated_data.get('description')
-        movie.is_active = serializer.validated_data.get('is_active')
         movie.duration = serializer.validated_data.get('duration')
         movie.create_data = serializer.validated_data.get('create_data')
         movie.director_id = serializer.validated_data.get('director_id')
@@ -136,7 +134,7 @@ def review_detail_api_view(request, review_id):
     elif request.method == 'DELETE':
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT,
-                        data={'message': 'Product removed!'})
+                        data={'message': 'ПРОДУКТ УДАЛЕН!'})
 
     elif request.method == 'PUT':
         serializer = ReviewValidateSerializer(data=request.data)
